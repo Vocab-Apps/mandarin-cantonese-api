@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 from flask import Flask, request
-from flask_restful import Resource, Api
+from flask_restful import Resource, Api, inputs
 import json
 import pinyin_jyutping_sentence
 
@@ -22,8 +22,9 @@ class Batch(Resource):
     def post(self):
         print(request.form)
         conversion_type = request.form.get('conversion')
-        #tone_numbers = request.form.get('tone_numbers')
-        tone_numbers=False
+        #tone_numbers = request.form['tone_numbers']
+        tone_numbers = inputs.boolean(request.form.get('tone_numbers'))
+        #tone_numbers=False
         entry_list = request.form.getlist('entries')
         
         print(tone_numbers)
