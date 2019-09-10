@@ -61,6 +61,36 @@ class ApiTests(unittest.TestCase):
         #print(actual_result)
         self.assertEqual(actual_result, expected_result)
 
+    def test_batch_jyutping(self):
+        data = {
+            'conversion': 'jyutping',
+            'tone_numbers': False,
+            'entries' : [
+                '我出去攞野食',
+                '有啲好貴'
+            ]
+        }
+        expected_result = {'result': ['ngǒ cēothêoi ló jěsik', 'jǎu dī hôu gwâi']}
+        response = self.client.post('/batch', data=data)
+        actual_result = json.loads(response.data)
+        #print(actual_result)
+        self.assertEqual(actual_result, expected_result)        
+
+    def test_batch_jyutping_tone_numbers(self):
+        data = {
+            'conversion': 'jyutping',
+            'tone_numbers': True,
+            'entries' : [
+                '我出去攞野食',
+                '有啲好貴'
+            ]
+        }
+        expected_result = {'result': ['ngo5 ceot1heoi3 lo2 je5sik6', 'jau5 di1 hou3 gwai3']}
+        response = self.client.post('/batch', data=data)
+        actual_result = json.loads(response.data)
+        #print(actual_result)
+        self.assertEqual(actual_result, expected_result)                
+
 if __name__ == '__main__':
     unittest.main()  
 
