@@ -30,11 +30,16 @@ class Batch(Resource):
         print(tone_numbers)
 
         if conversion_type == 'pinyin':
-            result_list = [pinyin_jyutping_sentence.pinyin(x, tone_numbers=tone_numbers) for x in entry_list]
-            print(result_list)
-            return {'result':result_list},200
+            conversion_function = pinyin_jyutping_sentence.pinyin
+        elif conversion_type == 'jyutping':
+            conversion_function = pinyin_jyutping_sentence.jyutping
+        else:
+            return {'status': 'error', 'description': 'incorrect conversion argument: ' + conversion_type}
 
-        return {'status': 'ok'}, 200
+        result_list = [conversion_function(x, tone_numbers=tone_numbers) for x in entry_list]
+        #print(result_list)
+        return {'result':result_list},200
+
 
 api.add_resource(Jyutping, '/jyutping/<chinese>')
 api.add_resource(Pinyin, '/pinyin/<chinese>')
