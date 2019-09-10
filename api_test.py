@@ -14,7 +14,22 @@ class ApiTests(unittest.TestCase):
         response = self.client.get('/pinyin/' + source)
         actual_result = json.loads(response.data) 
         print(actual_result)
-        self.assertEqual(actual_result, expected_result)     
+        self.assertEqual(actual_result, expected_result)
+
+    def test_batch(self):
+        data = {
+            'conversion': 'pinyin',
+            'tone_numbers': False,
+            'entries' : [
+                '忘拿一些东西了',
+                '没有什么',
+                '提高口语'
+            ]
+        }
+        expected_result = {'result': ['wàng ná yīxiē dōngxi le', 'méiyǒu shénme', 'tígāo kǒuyǔ']}
+        response = self.client.post('/batch', data=data)
+        actual_result = json.loads(response.data)
+        self.assertEqual(actual_result, expected_result)
 
 if __name__ == '__main__':
     unittest.main()  
