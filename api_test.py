@@ -27,7 +27,7 @@ class ApiTests(unittest.TestCase):
             ]
         }
         expected_result = {'result': ['wàng ná yīxiē dōngxi le', 'méiyǒu shénme', 'tígāo kǒuyǔ']}
-        response = self.client.post('/batch', data=data)
+        response = self.client.post('/batch', json=json.dumps(data))
         actual_result = json.loads(response.data)
         self.assertEqual(actual_result, expected_result)
 
@@ -42,7 +42,7 @@ class ApiTests(unittest.TestCase):
             ]
         }
         expected_result = {'result': ['wang4 na2 yi1xie1 dong1xi5 le5', 'mei2you3 shen2me5', 'ti2gao1 kou3yu3']}
-        response = self.client.post('/batch', data=data)
+        response = self.client.post('/batch', json=json.dumps(data))
         actual_result = json.loads(response.data)
         self.assertEqual(actual_result, expected_result)
 
@@ -56,7 +56,7 @@ class ApiTests(unittest.TestCase):
             ]
         }
         expected_result = {'result': ['ngǒ cēothêoi ló jěsik', 'jǎu dī hôu gwâi']}
-        response = self.client.post('/batch', data=data)
+        response = self.client.post('/batch', json=json.dumps(data))
         actual_result = json.loads(response.data)
         #print(actual_result)
         self.assertEqual(actual_result, expected_result)
@@ -71,7 +71,7 @@ class ApiTests(unittest.TestCase):
             ]
         }
         expected_result = {'result': ['ngǒ cēothêoi ló jěsik', 'jǎu dī hôu gwâi']}
-        response = self.client.post('/batch', data=data)
+        response = self.client.post('/batch', json=json.dumps(data))
         actual_result = json.loads(response.data)
         #print(actual_result)
         self.assertEqual(actual_result, expected_result)        
@@ -86,7 +86,7 @@ class ApiTests(unittest.TestCase):
             ]
         }
         expected_result = {'result': ['ngo5 ceot1heoi3 lo2 je5sik6', 'jau5 di1 hou3 gwai3']}
-        response = self.client.post('/batch', data=data)
+        response = self.client.post('/batch', json=json.dumps(data))
         actual_result = json.loads(response.data)
         #print(actual_result)
         self.assertEqual(actual_result, expected_result)                
