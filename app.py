@@ -20,7 +20,7 @@ class Pinyin(Resource):
         
 class Batch(Resource):
     def post(self):
-        data = json.loads(request.json)
+        data = request.json
         conversion_type = data['conversion']
         tone_numbers = data['tone_numbers']
         entry_list = data['entries']
