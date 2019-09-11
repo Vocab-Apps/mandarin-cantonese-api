@@ -2,6 +2,8 @@
 # docker build -t lucwastiaux/mandarin-cantonese-api:latest .
 # running the container:
 # docker run --name mandarin-cantonese-api -p 9042:8042 --rm lucwastiaux/mandarin-cantonese-api:latest
+# push to repository
+# docker push lucwastiaux/mandarin-cantonese-api:latest
 
 FROM python:3.6-alpine
 
