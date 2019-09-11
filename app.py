@@ -6,6 +6,7 @@ import json
 import functools
 import pinyin_jyutping_sentence
 
+
 app = Flask(__name__)
 api = Api(app)
 
@@ -33,16 +34,30 @@ def perform_conversion(input, conversion_type, tone_numbers, spaces):
 
 class Batch(Resource):
     def post(self):
+        BATCH_MAX_ENTRIES = 1000
+
         data = request.json
+        if 'conversion' not in data:
+            return {'status': 'error', 'description': 'missing conversion argument'}, 400
+        if 'tone_numbers' not in data:
+            return {'status': 'error', 'description': 'missing tone_numbers argument'}, 400            
+        if 'spaces' not in data:
+            return {'status': 'error', 'description': 'missing spaces argument'}, 400
+        if 'entries' not in data:
+            return {'status': 'error', 'description': 'missing entries argument'}, 400
         conversion_type = data['conversion']
         tone_numbers = data['tone_numbers']
         spaces = data['spaces']
         entry_list = data['entries']
 
-        print(f"conversion_type: {conversion_type} entries: {entry_list}")
+        # print(f"conversion_type: {conversion_type} entries: {entry_list}")
 
         if conversion_type != 'pinyin' and conversion_type != 'jyutping':
-            return {'status': 'error', 'description': 'incorrect conversion argument: ' + conversion_type}
+            return {'status': 'error', 'description': 'incorrect conversion argument: ' + conversion_type}, 400
+
+        if len(entry_list) > BATCH_MAX_ENTRIES:
+            return {'status': 'error', 'description': "max number of entries is 1000"}, 400
+
 
         result_list = [perform_conversion(x, conversion_type, tone_numbers, spaces) for x in entry_list]
         #print(result_list)

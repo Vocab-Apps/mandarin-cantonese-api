@@ -127,6 +127,61 @@ class ApiTests(unittest.TestCase):
         actual_result = json.loads(response.data)
         self.assertEqual(actual_result, expected_result)                        
 
+    def test_batch_errors(self):
+        data = {
+            #'conversion': 'jyutping',
+            'tone_numbers': True,
+            'spaces': True,
+            'entries' : [
+                '我出去攞野食',
+                '有啲好貴'
+            ]
+        }
+        response = self.client.post('/batch', json=data)
+        actual_result = json.loads(response.data)
+        self.assertEqual(response.status_code, 400)
+        self.assertEqual(actual_result, {'description': 'missing conversion argument', 'status': 'error'})
+
+        data = {
+            'conversion': 'jyutping',
+            #'tone_numbers': True,
+            'spaces': True,
+            'entries' : [
+                '我出去攞野食',
+                '有啲好貴'
+            ]
+        }
+        response = self.client.post('/batch', json=data)
+        actual_result = json.loads(response.data)
+        self.assertEqual(response.status_code, 400)
+        self.assertEqual(actual_result, {'description': 'missing tone_numbers argument', 'status': 'error'})        
+
+        # missing entries
+        data = {
+            'conversion': 'jyutping',
+            'tone_numbers': True,
+            'spaces': True
+        }
+        response = self.client.post('/batch', json=data)
+        actual_result = json.loads(response.data)
+        self.assertEqual(response.status_code, 400)
+        self.assertEqual(actual_result, {'description': 'missing entries argument', 'status': 'error'})                
+
+        # too many entries
+        many_entries = []
+        for i in range(0, 1100):
+            many_entries.append('我出去攞野食')
+        data = {
+            'conversion': 'jyutping',
+            'tone_numbers': True,
+            'spaces': True,
+            'entries': many_entries
+        }
+        response = self.client.post('/batch', json=data)
+        actual_result = json.loads(response.data)
+        self.assertEqual(response.status_code, 400)
+        self.assertEqual(actual_result, {'description': 'max number of entries is 1000', 'status': 'error'})                        
+
 if __name__ == '__main__':
     unittest.main()  
 
