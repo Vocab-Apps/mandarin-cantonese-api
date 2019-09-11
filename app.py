@@ -20,7 +20,7 @@ class Pinyin(Resource):
         return {'pinyin': romanization}
         
 @functools.lru_cache(maxsize=10000)        
-def perform_conversion(input, conversion_type, tone_numbers):
+def perform_conversion(input, conversion_type, tone_numbers, spaces):
     if len(input) == 0:
         return ""
 
@@ -28,7 +28,7 @@ def perform_conversion(input, conversion_type, tone_numbers):
         conversion_function = pinyin_jyutping_sentence.pinyin
     elif conversion_type == 'jyutping':
         conversion_function = pinyin_jyutping_sentence.jyutping    
-    return conversion_function(input, tone_numbers)
+    return conversion_function(input, tone_numbers=tone_numbers, spaces=spaces)
 
 
 class Batch(Resource):
@@ -36,6 +36,7 @@ class Batch(Resource):
         data = request.json
         conversion_type = data['conversion']
         tone_numbers = data['tone_numbers']
+        spaces = data['spaces']
         entry_list = data['entries']
 
         print(f"conversion_type: {conversion_type} entries: {entry_list}")
@@ -43,7 +44,7 @@ class Batch(Resource):
         if conversion_type != 'pinyin' and conversion_type != 'jyutping':
             return {'status': 'error', 'description': 'incorrect conversion argument: ' + conversion_type}
 
-        result_list = [perform_conversion(x, conversion_type, tone_numbers) for x in entry_list]
+        result_list = [perform_conversion(x, conversion_type, tone_numbers, spaces) for x in entry_list]
         #print(result_list)
         return {'result':result_list},200
 

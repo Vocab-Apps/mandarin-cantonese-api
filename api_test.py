@@ -20,6 +20,7 @@ class ApiTests(unittest.TestCase):
         data = {
             'conversion': 'pinyin',
             'tone_numbers': False,
+            'spaces': False,
             'entries' : [
                 '忘拿一些东西了',
                 '没有什么',
@@ -31,10 +32,27 @@ class ApiTests(unittest.TestCase):
         actual_result = json.loads(response.data)
         self.assertEqual(actual_result, expected_result)
 
+    def test_batch_pinyin_spaces(self):
+        data = {
+            'conversion': 'pinyin',
+            'tone_numbers': False,
+            'spaces': True,
+            'entries' : [
+                '忘拿一些东西了',
+                '没有什么',
+                '提高口语'
+            ]
+        }
+        expected_result = {'result': ['wàng ná yī xiē dōng xi le', 'méi yǒu shén me', 'tí gāo kǒu yǔ']}
+        response = self.client.post('/batch', json=data)
+        actual_result = json.loads(response.data)
+        self.assertEqual(actual_result, expected_result)        
+
     def test_batch_pinyin_tone_numbers(self):
         data = {
             'conversion': 'pinyin',
             'tone_numbers': True,
+            'spaces': False,
             'entries' : [
                 '忘拿一些东西了',
                 '没有什么',
@@ -50,6 +68,7 @@ class ApiTests(unittest.TestCase):
         data = {
             'conversion': 'jyutping',
             'tone_numbers': False,
+            'spaces': False,
             'entries' : [
                 '我出去攞野食',
                 '有啲好貴'
@@ -65,6 +84,7 @@ class ApiTests(unittest.TestCase):
         data = {
             'conversion': 'jyutping',
             'tone_numbers': False,
+            'spaces': False,
             'entries' : [
                 '我出去攞野食',
                 '有啲好貴'
@@ -80,6 +100,7 @@ class ApiTests(unittest.TestCase):
         data = {
             'conversion': 'jyutping',
             'tone_numbers': True,
+            'spaces': False,
             'entries' : [
                 '我出去攞野食',
                 '有啲好貴'
@@ -90,6 +111,21 @@ class ApiTests(unittest.TestCase):
         actual_result = json.loads(response.data)
         #print(actual_result)
         self.assertEqual(actual_result, expected_result)                
+
+    def test_batch_jyutping_tone_numbers_spaces(self):
+        data = {
+            'conversion': 'jyutping',
+            'tone_numbers': True,
+            'spaces': True,
+            'entries' : [
+                '我出去攞野食',
+                '有啲好貴'
+            ]
+        }
+        expected_result = {'result': ['ngo5 ceot1 heoi3 lo2 je5 sik6', 'jau5 di1 hou3 gwai3']}
+        response = self.client.post('/batch', json=data)
+        actual_result = json.loads(response.data)
+        self.assertEqual(actual_result, expected_result)                        
 
 if __name__ == '__main__':
     unittest.main()  
