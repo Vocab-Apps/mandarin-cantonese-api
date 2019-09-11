@@ -108,6 +108,7 @@ class ApiTests(unittest.TestCase):
         }
         expected_result = {'result': ['ngo5 ceot1heoi3 lo2 je5sik6', 'jau5 di1 hou3 gwai3']}
         response = self.client.post('/batch', json=data)
+        self.assertEqual(response.status_code, 200)
         actual_result = json.loads(response.data)
         #print(actual_result)
         self.assertEqual(actual_result, expected_result)                
@@ -124,6 +125,7 @@ class ApiTests(unittest.TestCase):
         }
         expected_result = {'result': ['ngo5 ceot1 heoi3 lo2 je5 sik6', 'jau5 di1 hou3 gwai3']}
         response = self.client.post('/batch', json=data)
+        self.assertEqual(response.status_code, 200)
         actual_result = json.loads(response.data)
         self.assertEqual(actual_result, expected_result)                        
 
