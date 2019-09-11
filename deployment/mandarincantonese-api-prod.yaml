@@ -38,6 +38,6 @@ spec:
     spec:
       containers:
       - name: mandarincantonese-api-prod
-        image: lucwastiaux/mandarin-cantonese-api:latest
+        image: lucwastiaux/mandarin-cantonese-api:v0.1
         ports:
         - containerPort: 8042
