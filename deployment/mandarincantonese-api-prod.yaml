@@ -1,0 +1,43 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: mandarincantonese-api-service-prod
+  labels:
+    app: mandarincantonese-api
+    type: mandarincantonese-api-service
+    environment: prod
+spec:
+  ports:
+  - port: 80
+    targetPort: 8042
+  selector:
+    app: mandarincantonese-api
+    environment: prod
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mandarincantonese-api-deployment-prod
+  labels:
+    app: mandarincantonese-api
+    type: mandarincantonese-api-server
+    environment: prod
+spec:
+  selector:
+    matchLabels:
+      app: mandarincantonese-api
+      type: mandarincantonese-api-server
+      environment: prod
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: mandarincantonese-api
+        type: mandarincantonese-api-server
+        environment: prod
+    spec:
+      containers:
+      - name: mandarincantonese-api-prod
+        image: lucwastiaux/mandarin-cantonese-api:latest
+        ports:
+        - containerPort: 8042
