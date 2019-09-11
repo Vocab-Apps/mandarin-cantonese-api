@@ -144,6 +144,7 @@ class ApiTests(unittest.TestCase):
         self.assertEqual(response.status_code, 400)
         self.assertEqual(actual_result, {'description': 'missing conversion argument', 'status': 'error'})
 
+        # missing tone_numbers
         data = {
             'conversion': 'jyutping',
             #'tone_numbers': True,
@@ -157,6 +158,21 @@ class ApiTests(unittest.TestCase):
         actual_result = json.loads(response.data)
         self.assertEqual(response.status_code, 400)
         self.assertEqual(actual_result, {'description': 'missing tone_numbers argument', 'status': 'error'})        
+
+        # missing spaces
+        data = {
+            'conversion': 'jyutping',
+            'tone_numbers': True,
+            #'spaces': True,
+            'entries' : [
+                '我出去攞野食',
+                '有啲好貴'
+            ]
+        }
+        response = self.client.post('/batch', json=data)
+        actual_result = json.loads(response.data)
+        self.assertEqual(response.status_code, 400)
+        self.assertEqual(actual_result, {'description': 'missing spaces argument', 'status': 'error'})                
 
         # missing entries
         data = {
