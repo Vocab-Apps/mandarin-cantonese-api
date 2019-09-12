@@ -80,9 +80,9 @@ function convert(input, format, tone_numbers, spaces) {
 /**
  * Convert Traditional Chinese text to Jyutping
  *
- * @param {input} the value or cell containing Traditional Chinese text. Single cell (A1) or range (A:A) accepted.
- * @param {tone_numbers} specify TRUE to use tone numbers instead of diacritics (FALSE otherwise).
- * @param {spaces} specify TRUE to use a space between each syllable (FALSE otherwise).
+ * @param {string} input - the value or cell containing Traditional Chinese text. Single cell (A1) or range (A:A) accepted.
+ * @param {boolean} tone_numbers - specify TRUE to use tone numbers instead of diacritics (FALSE otherwise).
+ * @param {boolean} spaces - specify TRUE to use a space between each syllable (FALSE otherwise).
  * @return Jyutping text
  * @customfunction
  */
@@ -93,9 +93,9 @@ function jyutping(input, tone_numbers, spaces) {
 /**
  * Convert Simplified Chinese text to Pinyin
  *
- * @param {input} the value or cell containing Simplified Chinese text. Single cell (A1) or range (A:A) accepted.
- * @param {tone_numbers} specify TRUE to use tone numbers instead of diacritics (FALSE otherwise).
- * @param {spaces} specify TRUE to use a space between each syllable (FALSE otherwise).
+ * @param {string} input - the value or cell containing Simplified Chinese text. Single cell (A1) or range (A:A) accepted.
+ * @param {boolean} tone_numbers - specify TRUE to use tone numbers instead of diacritics (FALSE otherwise).
+ * @param {boolean} spaces - specify TRUE to use a space between each syllable (FALSE otherwise).
  * @return Pinyin text
  * @customfunction
  */
