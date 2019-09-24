@@ -8,4 +8,4 @@ After installing this add-on on Google Sheets, you now have access to the *PINYI
 
 Reporting errors
 ----------------
-Please email mandarincantonese@mailc.net to report any problems.
+You can open an issue on github here: https://github.com/lucwastiaux/mandarin-cantonese-api/issues , or email mandarincantonese@mailc.net to report any problems.
