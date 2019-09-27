@@ -11,6 +11,7 @@
  */
 function onInstall() {
   onOpen();
+  use();
 }
 
 function onOpen() {
@@ -22,15 +23,18 @@ function onOpen() {
 }
 
 function use() {
-  pinyin('车站');
-  jyutping('課室');
+  
+  var jyutping_input = '你好';
+  var jyutping_output = jyutping(jyutping_input);
   
   var pinyin_input = '你好';
   var pinyin_output = pinyin(pinyin_input);
   
   var title = 'Mandarin Cantonese Tools';
   var message = 'The functions PINYIN and JYUTPING are now available in ' +
-      'this spreadsheet. =PINYIN(\'' + pinyin_input + '\') should return \'' + pinyin_output + '\'' +
+      'this spreadsheet. '+ 
+      ' =PINYIN(\'' + pinyin_input + '\') should return \'' + pinyin_output + '\'' +
+      ' =JYUTPING(\'' + jyutping_input + '\') should return \'' + jyutping_output + '\'' +
       ' More information is available in the function help ' +
       'box. Please type =PINYIN() or =JYUTPING() to see more information.';
   var ui = SpreadsheetApp.getUi();
@@ -115,7 +119,7 @@ function convert(input, format, tone_numbers, spaces) {
 /**
  * Convert Traditional Chinese text to Jyutping
  *
- * @param {string} input - the value or cell containing Traditional Chinese text. Single cell (A1) or range (A:A) accepted.
+ * @param {string} input - the value or cell containing Traditional Chinese text. Single cell (A1) or range (A:A) accepted. Using a range is much faster.
  * @param {boolean} tone_numbers - specify TRUE to use tone numbers instead of diacritics (FALSE otherwise).
  * @param {boolean} spaces - specify TRUE to use a space between each syllable (FALSE otherwise).
  * @return Jyutping text
@@ -128,7 +132,7 @@ function jyutping(input, tone_numbers, spaces) {
 /**
  * Convert Simplified Chinese text to Pinyin
  *
- * @param {string} input - the value or cell containing Simplified Chinese text. Single cell (A1) or range (A:A) accepted.
+ * @param {string} input - the value or cell containing Simplified Chinese text. Single cell (A1) or range (A:A) accepted. Using a range is much faster.
  * @param {boolean} tone_numbers - specify TRUE to use tone numbers instead of diacritics (FALSE otherwise).
  * @param {boolean} spaces - specify TRUE to use a space between each syllable (FALSE otherwise).
  * @return Pinyin text
@@ -138,16 +142,3 @@ function pinyin(input, tone_numbers, spaces) {
   return convert(input, "pinyin", tone_numbers, spaces);
 }
 
-/**
- * @customfunction
- */
-function jyutping2(input, tone_numbers, spaces) {
-  return jyutping2(input, tone_numbers, spaces);
-}
-
-/**
- * @customfunction
- */
-function pinyin2(input, tone_numbers, spaces) {
-  return pinyin2(input, tone_numbers, spaces);
-}
