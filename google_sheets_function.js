@@ -17,12 +17,21 @@ function onOpen() {
   SpreadsheetApp.getUi().createAddonMenu()
       .addItem('Use in this spreadsheet', 'use')
       .addToUi();
+  
+
 }
 
 function use() {
+  pinyin('车站');
+  jyutping('課室');
+  
+  var pinyin_input = '你好';
+  var pinyin_output = pinyin(pinyin_input);
+  
   var title = 'Mandarin Cantonese Tools';
   var message = 'The functions PINYIN and JYUTPING are now available in ' +
-      'this spreadsheet. More information is available in the function help ' +
+      'this spreadsheet. =PINYIN(\'' + pinyin_input + '\') should return \'' + pinyin_output + '\'' +
+      ' More information is available in the function help ' +
       'box. Please type =PINYIN() or =JYUTPING() to see more information.';
   var ui = SpreadsheetApp.getUi();
   ui.alert(title, message, ui.ButtonSet.OK);
@@ -127,4 +136,18 @@ function jyutping(input, tone_numbers, spaces) {
  */
 function pinyin(input, tone_numbers, spaces) {
   return convert(input, "pinyin", tone_numbers, spaces);
+}
+
+/**
+ * @customfunction
+ */
+function jyutping2(input, tone_numbers, spaces) {
+  return jyutping2(input, tone_numbers, spaces);
+}
+
+/**
+ * @customfunction
+ */
+function pinyin2(input, tone_numbers, spaces) {
+  return pinyin2(input, tone_numbers, spaces);
 }
