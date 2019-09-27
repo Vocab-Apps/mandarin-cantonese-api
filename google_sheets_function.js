@@ -1,6 +1,33 @@
 // uses API and python module from https://github.com/lucwastiaux/python-pinyin-jyutping-sentence
 
 
+/**
+ * @fileoverview Provides custom functions PINYIN and JYUTPING.
+ * @OnlyCurrentDoc
+ */
+
+/**
+ * Runs when the add-on is installed.
+ */
+function onInstall() {
+  onOpen();
+}
+
+function onOpen() {
+  SpreadsheetApp.getUi().createAddonMenu()
+      .addItem('Use in this spreadsheet', 'use')
+      .addToUi();
+}
+
+function use() {
+  var title = 'Mandarin Cantonese Tools';
+  var message = 'The functions PINYIN and JYUTPING are now available in ' +
+      'this spreadsheet. More information is available in the function help ' +
+      'box. Please type =PINYIN() or =JYUTPING() to see more information.';
+  var ui = SpreadsheetApp.getUi();
+  ui.alert(title, message, ui.ButtonSet.OK);
+}
+
 function flatten_array(entry) {
   return entry[0];
 }
@@ -62,7 +89,6 @@ function chinese_convert_single(input, format, tone_numbers, spaces) {
   var result_entries = call_api(input_array, format, tone_numbers, spaces);
   console.timeEnd(apiStep);  
   
-
   return result_entries[0];
 }
 
