@@ -10,4 +10,8 @@ After installing this add-on on Google Sheets, you now have access to the *PINYI
 
 Reporting errors
 ----------------
-You can open an issue on [github](https://github.com/lucwastiaux/mandarin-cantonese-api/issues), or email [mandarincantonese@mailc.net](mailto:mandarincantonese@mailc.net) to report any problems.
+You can open an issue on [github](https://github.com/lucwastiaux/mandarin-cantonese-api/issues), or email [mandarincantonese@mailc.net](mailto:mandarincantonese@mailc.net) to report any problems. 
+
+Want to support my work on this add-on, and get priority feature requests, bug fixes ? Become a supporter on patreon: https://www.patreon.com/lucw
+
+[![image](https://c5.patreon.com/external/logo/become_a_patron_button.png)](https://www.patreon.com/lucw)
