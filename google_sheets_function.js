@@ -50,7 +50,7 @@ function wrap_array(entry) {
 }
 
 function call_api(input_array, format, tone_numbers, spaces) {
-  var url = 'http://api.prod.mandarincantonese.com/batch';  
+  var url = 'https://api.prod.mandarincantonese.com/batch';  
   
   var data = {
     'conversion': format,
