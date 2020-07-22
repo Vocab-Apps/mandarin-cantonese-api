@@ -1,5 +1,6 @@
 # mandarin-cantonese-api
 [![Build Status](https://travis-ci.org/lucwastiaux/mandarin-cantonese-api.svg?branch=master)](https://travis-ci.org/lucwastiaux/mandarin-cantonese-api)
+
 API for processing Mandarin and Cantonese
 
 # Google Sheets add-on
