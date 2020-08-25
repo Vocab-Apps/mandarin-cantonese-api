@@ -28,7 +28,7 @@ spec:
       app: mandarincantonese-api
       type: mandarincantonese-api-server
       environment: prod
-  replicas: 2
+  replicas: 4
   template:
     metadata:
       labels:
