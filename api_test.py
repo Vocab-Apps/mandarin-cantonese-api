@@ -36,7 +36,17 @@ class ApiTests(unittest.TestCase):
             'remove_tones': True
         })
         actual_result = json.loads(response.data)
-        self.assertEqual(actual_result, expected_result)                
+        self.assertEqual(actual_result, expected_result)
+
+        expected_result = {'romanization':'ti gao kou yu'}
+        response = self.client.post('/convert', json={
+            'conversion_type': 'pinyin',
+            'text':source,
+            'remove_tones': True,
+            'spaces': True
+        })
+        actual_result = json.loads(response.data)
+        self.assertEqual(actual_result, expected_result)                        
 
     def test_batch_pinyin(self):
         data = {
