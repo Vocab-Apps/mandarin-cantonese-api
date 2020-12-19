@@ -15,10 +15,31 @@ class Jyutping(Resource):
         romanization = pinyin_jyutping_sentence.jyutping(chinese)
         return {'jyutping': romanization}
         
+        
 class Pinyin(Resource):
     def get(self, chinese):
         romanization = pinyin_jyutping_sentence.pinyin(chinese)
         return {'pinyin': romanization}
+
+
+class Convert(Resource):
+    def post(self):
+        data = request.json
+
+        text = data['text']
+        conversion_type = data['conversion_type']
+        tone_numbers = data.get('tone_numbers', False)
+        spaces = data.get('spaces', False)
+        remove_tones = data.get('remove_tones', False)
+
+        if conversion_type == 'pinyin':
+            conversion_function = pinyin_jyutping_sentence.pinyin
+        elif conversion_type == 'jyutping':
+            conversion_function = pinyin_jyutping_sentence.jyutping    
+
+        romanization = conversion_function(text, tone_numbers=tone_numbers, spaces=spaces, remove_tones=remove_tones)
+        return {'romanization': romanization}
+        
         
 @functools.lru_cache(maxsize=10000)        
 def perform_conversion(input, conversion_type, tone_numbers, spaces):
@@ -67,6 +88,7 @@ class Batch(Resource):
 api.add_resource(Jyutping, '/jyutping/<chinese>')
 api.add_resource(Pinyin, '/pinyin/<chinese>')
 api.add_resource(Batch, '/batch')
+api.add_resource(Convert, '/convert')
 
 if __name__ == '__main__':
     app.run(debug=False, host='0.0.0.0')
