@@ -11,15 +11,22 @@
  */
  function onInstall() {
   onOpen();
-  use();
+  //use();
+  showSidebar();
 }
 
 function onOpen() {
   SpreadsheetApp.getUi().createAddonMenu()
       .addItem('Use in this spreadsheet', 'use')
+      .addItem('Show Help', 'showSidebar')
       .addToUi();
   
 
+}
+
+function showSidebar() {
+  var html = HtmlService.createHtmlOutputFromFile('sidebar.html').setTitle('Mandarin/Cantonese Pinyin/Jyutping');
+  SpreadsheetApp.getUi().showSidebar(html);
 }
 
 function use() {

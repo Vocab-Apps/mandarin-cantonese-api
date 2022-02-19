@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <base target="_top">
+    <style>
+      body {
+        font-family: Arial, Helvetica, sans-serif;
+      }
+    </style>
+  </head>
+  <body>
+    <h2>Using the addon</h2>
+    <p>
+      Type some chinese text into cell <b>A1</b> such as <b>你好</b>. In cell A2, enter the formula <pre>=PINYIN(A1)</pre>. You should see the text <b>nǐhǎo</b> appear.      
+    </p>
+    <p>
+      Similarly, you can use <pre>=JYUTPING(A1)</pre> for Cantonese/Jyutping.
+    </p>
+    <h2>Multiple rows</h2>
+    <p>
+      In order to apply the <b>PINYIN</b> formula to multiple rows, use the following syntax:
+      <pre>=PINYIN(A1:A20)</pre>
+      You can also use the following syntax to apply the formula to all rows (will generate Pinyin for all of column A):
+      <pre>=PINYIN(A:A)</pre>
+      Or the alternative: (will generate Pinyin for all of column A, starting at row 3)
+      <pre>=PINYIN(A3:A)</pre>
+      
+    </p>
+    <h2>Getting service invoked to many times?</h2>
+    <p>
+      This addon makes requests to an external service to generate Pinyin, and Google limits how many such requests can be made. To avoid
+      hitting this limitation, please remove the PINYIN formula from spreadsheets you are not using, and use the batch mode to apply the PINYIN 
+      formula to multiple rows.
+    </p>
+    <h2>More Tutorials</h2>
+    <ul>
+      <li><a href="https://lucw.medium.com/converting-chinese-characters-to-pinyin-or-jyutping-on-google-sheets-eb12cca669cb" target="_blank">Converting Chinese characters to Pinyin or Jyutping on Google Sheets</a></li>
+      <li><a href="https://lucw.medium.com/converting-chinese-characters-to-pinyin-jyutping-on-google-sheets-now-with-more-functionality-5047692950bf" target="_blank">Converting Chinese Characters to Pinyin/Jyutping on Google Sheets: now with more functionality</a></li>
+    </ul>
+    <h2>Report incorrect Pinyin/Jyutping / Contact</h2>
+    <a href="https://f6mzpzdl33w.typeform.com/to/pHT3nz21" target="_blank">Report an incorrect result</a>
+    <br/>
+    <a href="mailto:mandarincantonese@mailc.net" target="_blank">Contact Developer</a>
+  </body>
+</html>
