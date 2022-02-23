@@ -68,7 +68,7 @@ function get_user_uuid() {
 }
 
 function call_api(input_array, format, tone_numbers, spaces) {
-  var url = 'https://apiv2.mandarincantonese.com/batch';  
+  var url = 'https://api-prod.mandarincantonese.com/batch';  
   
   var data = {
     'conversion': format,
