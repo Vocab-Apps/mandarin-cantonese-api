@@ -12,6 +12,7 @@
  function onInstall() {
   onOpen();
   //use();
+  set_user_uuid();
   showSidebar();
 }
 
@@ -56,19 +57,23 @@ function wrap_array(entry) {
   return [entry];
 }
 
-function get_user_uuid() {
-  /*
-  const user_uuid_key = 'USER_UUID';
+
+function get_user_uuid_key() {
+  return 'USER_UUID';
+}
+
+function set_user_uuid() {
   var userProperties = PropertiesService.getUserProperties();
-  var user_uuid = userProperties.getProperty(user_uuid_key);
+  var user_uuid = userProperties.getProperty(get_user_uuid_key());
   if (user_uuid == undefined) {
     user_uuid = Utilities.getUuid();
-    userProperties.setProperty(user_uuid_key, user_uuid);
-  }
-  return user_uuid;
-  */
-  // return Session.getEffectiveUser().getEmail();
-  return "googlesheets_user";
+    userProperties.setProperty(user_uuid_key, get_user_uuid_key());
+  }  
+}
+
+function get_user_uuid() {
+  var userProperties = PropertiesService.getUserProperties();
+  return userProperties.getProperty(get_user_uuid_key());
 }
 
 function call_api(input_array, format, tone_numbers, spaces) {
