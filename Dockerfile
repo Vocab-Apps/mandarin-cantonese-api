@@ -7,6 +7,9 @@
 
 FROM ubuntu:20.04
 
+# use ubuntu mirrors
+RUN sed -i -e 's|archive\.ubuntu\.com|mirrors\.xtom\.com\.hk|g' /etc/apt/sources.list
+
 RUN apt-get update -y && apt-get install -y python3-pip
 
 COPY requirements.txt requirements.txt
