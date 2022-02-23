@@ -57,6 +57,7 @@ function wrap_array(entry) {
 }
 
 function get_user_uuid() {
+  /*
   const user_uuid_key = 'USER_UUID';
   var userProperties = PropertiesService.getUserProperties();
   var user_uuid = userProperties.getProperty(user_uuid_key);
@@ -65,6 +66,8 @@ function get_user_uuid() {
     userProperties.setProperty(user_uuid_key, user_uuid);
   }
   return user_uuid;
+  */
+  return 'googlesheets_user';
 }
 
 function call_api(input_array, format, tone_numbers, spaces) {
