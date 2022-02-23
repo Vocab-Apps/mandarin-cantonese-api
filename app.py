@@ -78,6 +78,8 @@ class Batch(Resource):
         BATCH_MAX_ENTRIES = 1000
 
         data = request.json
+        if 'user_uuid' not in data:
+            return {'status': 'error', 'description': 'missing user_uuid argument'}, 400
         if 'conversion' not in data:
             return {'status': 'error', 'description': 'missing conversion argument'}, 400
         if 'tone_numbers' not in data:
@@ -86,6 +88,8 @@ class Batch(Resource):
             return {'status': 'error', 'description': 'missing spaces argument'}, 400
         if 'entries' not in data:
             return {'status': 'error', 'description': 'missing entries argument'}, 400
+        user_uuid = data['user_uuid']
+        sentry_sdk.set_user({'id': user_uuid})
         conversion_type = data['conversion']
         tone_numbers = data['tone_numbers']
         spaces = data['spaces']

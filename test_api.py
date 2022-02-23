@@ -2,6 +2,8 @@ import unittest
 import json
 from app import app
 
+USER_UUID = 'test'
+
 class ApiTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
@@ -50,6 +52,7 @@ class ApiTests(unittest.TestCase):
 
     def test_batch_pinyin(self):
         data = {
+            'user_uuid': USER_UUID,
             'conversion': 'pinyin',
             'tone_numbers': False,
             'spaces': False,
@@ -66,6 +69,7 @@ class ApiTests(unittest.TestCase):
 
     def test_batch_pinyin_spaces(self):
         data = {
+            'user_uuid': USER_UUID,
             'conversion': 'pinyin',
             'tone_numbers': False,
             'spaces': True,
@@ -82,6 +86,7 @@ class ApiTests(unittest.TestCase):
 
     def test_batch_pinyin_tone_numbers(self):
         data = {
+            'user_uuid': USER_UUID,
             'conversion': 'pinyin',
             'tone_numbers': True,
             'spaces': False,
@@ -98,6 +103,7 @@ class ApiTests(unittest.TestCase):
 
     def test_batch_jyutping(self):
         data = {
+            'user_uuid': USER_UUID,
             'conversion': 'jyutping',
             'tone_numbers': False,
             'spaces': False,
@@ -114,6 +120,7 @@ class ApiTests(unittest.TestCase):
 
     def test_batch_jyutping(self):
         data = {
+            'user_uuid': USER_UUID,
             'conversion': 'jyutping',
             'tone_numbers': False,
             'spaces': False,
@@ -130,6 +137,7 @@ class ApiTests(unittest.TestCase):
 
     def test_batch_jyutping_tone_numbers(self):
         data = {
+            'user_uuid': USER_UUID,
             'conversion': 'jyutping',
             'tone_numbers': True,
             'spaces': False,
@@ -147,6 +155,7 @@ class ApiTests(unittest.TestCase):
 
     def test_batch_jyutping_tone_numbers_spaces(self):
         data = {
+            'user_uuid': USER_UUID,
             'conversion': 'jyutping',
             'tone_numbers': True,
             'spaces': True,
@@ -163,6 +172,7 @@ class ApiTests(unittest.TestCase):
 
     def test_batch_errors(self):
         data = {
+            'user_uuid': USER_UUID,
             #'conversion': 'jyutping',
             'tone_numbers': True,
             'spaces': True,
@@ -178,6 +188,7 @@ class ApiTests(unittest.TestCase):
 
         # missing tone_numbers
         data = {
+            'user_uuid': USER_UUID,
             'conversion': 'jyutping',
             #'tone_numbers': True,
             'spaces': True,
@@ -193,6 +204,7 @@ class ApiTests(unittest.TestCase):
 
         # missing spaces
         data = {
+            'user_uuid': USER_UUID,
             'conversion': 'jyutping',
             'tone_numbers': True,
             #'spaces': True,
@@ -208,6 +220,7 @@ class ApiTests(unittest.TestCase):
 
         # missing entries
         data = {
+            'user_uuid': USER_UUID,
             'conversion': 'jyutping',
             'tone_numbers': True,
             'spaces': True
@@ -222,6 +235,7 @@ class ApiTests(unittest.TestCase):
         for i in range(0, 1100):
             many_entries.append('我出去攞野食')
         data = {
+            'user_uuid': USER_UUID,
             'conversion': 'jyutping',
             'tone_numbers': True,
             'spaces': True,
