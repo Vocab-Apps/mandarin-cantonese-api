@@ -3,8 +3,28 @@
 from flask import Flask, request
 from flask_restful import Resource, Api, inputs
 import json
+import os
 import functools
 import pinyin_jyutping_sentence
+import version
+import sentry_sdk
+import sentry_sdk.integrations.flask
+
+sentry_env = os.environ['ENV']
+traces_sample_rate_map = {
+    'development': 1.0,
+    'production': 0.05
+}
+
+sentry_sdk.init(
+    "https://b10227807e744c9685a4c6537c0845d9@o968582.ingest.sentry.io/6227361",
+    integrations=[sentry_sdk.integrations.flask.FlaskIntegration()],
+    release=version.MANDARIN_CANTONESE_API_VERSION,
+    # Set traces_sample_rate to 1.0 to capture 100%
+    # of transactions for performance monitoring.
+    # We recommend adjusting this value in production.
+    traces_sample_rate=traces_sample_rate_map[sentry_env]
+)
 
 
 app = Flask(__name__)
