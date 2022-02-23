@@ -54,6 +54,10 @@ function wrap_array(entry) {
   return [entry];
 }
 
+function clear_cache() {
+  var values = cache.getAll(['foo', 'x', 'missing']);
+
+}
 
 function get_user_uuid_key() {
   return 'USER_UUID';
@@ -73,28 +77,66 @@ function get_user_uuid() {
   return userProperties.getProperty(get_user_uuid_key());
 }
 
+function get_cache_key(source_text, conversion, tone_numbers, spaces) {
+  return 'cache_' + source_text + '_' + conversion + '_tone_numbers_' + tone_numbers + '_spaces_' + spaces;
+}
+
 function call_api(input_array, format, tone_numbers, spaces) {
   var url = 'https://api-prod.mandarincantonese.com/batch';  
+  var cache = CacheService.getDocumentCache();
+
+  var cached_entries = [];
+  for (var i = 0; i < input_array.length; i++) {
+    var cache_key = get_cache_key(input_array[i], format, tone_numbers, spaces);
+    var cached_result = cache.get(cache_key);
+    if (cached_result != null) {
+      cached_entries.push(cached_result);
+    } else {
+      break; // don't keep looking, just look at the beginning
+    }
+  }
+
+  var query_array = input_array.slice(cached_entries.length);
+  // console.log('cached_entries: ', cached_entries);
+  // console.log('query_array: ', query_array);
   
-  var data = {
-    'conversion': format,
-    'tone_numbers': tone_numbers,
-    'spaces': spaces,
-    'entries': input_array,
-    'user_uuid': get_user_uuid()
-  };
-  // console.log(data);
-  var options = {
-    'method' : 'post',
-    'contentType': 'application/json',
-    'payload' : JSON.stringify(data)
-  };
-  
-  var response = UrlFetchApp.fetch(url, options);  
-  var result_data = JSON.parse(response);
-  
-  var result_entries = result_data['result'];  
-  return result_entries;
+  if (query_array.length > 0) {
+    var data = {
+      'conversion': format,
+      'tone_numbers': tone_numbers,
+      'spaces': spaces,
+      'entries': query_array,
+      'user_uuid': get_user_uuid()
+    };
+    // console.log(data);
+    var options = {
+      'method' : 'post',
+      'contentType': 'application/json',
+      'payload' : JSON.stringify(data)
+    };
+    
+    var response = UrlFetchApp.fetch(url, options);  
+    var result_data = JSON.parse(response);
+    
+    var result_entries = result_data['result'];  
+    // console.log('queried for ', result_entries.length, ' entries');
+  } else {
+    // no need to query anything
+    var result_entries = [];
+    // console.log('all results cached, not querying anything');
+  }
+
+  // place result into cache
+  for (var i = 0; i < result_entries.length; i++) {
+    var query_text = query_array[i];
+    var result_text = result_entries[i];
+    var result_cache_key = get_cache_key(query_text, format, tone_numbers, spaces);
+    cache.put(result_cache_key, result_text, 60);
+  }
+
+  // combine cached array and result entries
+  var final_result = cached_entries.concat(result_entries);
+  return final_result;
 }
 
 function chinese_convert_batch(input, format, tone_numbers, spaces) {
