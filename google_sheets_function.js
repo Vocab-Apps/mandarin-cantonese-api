@@ -67,7 +67,8 @@ function get_user_uuid() {
   }
   return user_uuid;
   */
-  return 'googlesheets_user';
+  // return Session.getEffectiveUser().getEmail();
+  return "googlesheets_user";
 }
 
 function call_api(input_array, format, tone_numbers, spaces) {
