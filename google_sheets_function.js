@@ -74,7 +74,17 @@ function set_user_uuid() {
 
 function get_user_uuid() {
   var userProperties = PropertiesService.getUserProperties();
-  return userProperties.getProperty(get_user_uuid_key());
+  var user_uuid = userProperties.getProperty(get_user_uuid_key());
+  if (user_uuid == undefined) {
+    // for some users, we're unable to set user properties, use cache instead
+    var user_cache = CacheService.getUserCache();
+    user_uuid = user_cache.get(get_user_uuid_key());
+    if (user_uuid == undefined) {
+      user_uuid = Utilities.getUuid();
+      user_cache.put(get_user_uuid_key(), user_uuid, 21600);
+    }
+  }
+  return user_uuid;
 }
 
 function get_cache_key(source_text, conversion, tone_numbers, spaces) {
@@ -107,9 +117,9 @@ function call_api(input_array, format, tone_numbers, spaces) {
       'spaces': spaces,
       'entries': query_array,
       'user_uuid': get_user_uuid(),
-      'addon_version': 'v21'
+      'addon_version': 'v22'
     };
-    // console.log(data);
+    //console.log(data);
     var options = {
       'method' : 'post',
       'contentType': 'application/json',
