@@ -131,7 +131,7 @@ function call_api(input_array, format, tone_numbers, spaces) {
     var query_text = query_array[i];
     var result_text = result_entries[i];
     var result_cache_key = get_cache_key(query_text, format, tone_numbers, spaces);
-    cache.put(result_cache_key, result_text, 60);
+    cache.put(result_cache_key, result_text, 1800);
   }
 
   // combine cached array and result entries
