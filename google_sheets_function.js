@@ -11,18 +11,15 @@
  */
  function onInstall() {
   onOpen();
-  //use();
-  set_user_uuid();
-  showSidebar();
 }
 
 function onOpen() {
+  set_user_uuid();
   SpreadsheetApp.getUi().createAddonMenu()
       .addItem('Use in this spreadsheet', 'use')
       .addItem('Show Help', 'showSidebar')
       .addToUi();
-  
-
+  showSidebar();
 }
 
 function showSidebar() {
@@ -67,7 +64,7 @@ function set_user_uuid() {
   var user_uuid = userProperties.getProperty(get_user_uuid_key());
   if (user_uuid == undefined) {
     user_uuid = Utilities.getUuid();
-    userProperties.setProperty(user_uuid_key, get_user_uuid_key());
+    userProperties.setProperty(get_user_uuid_key(), user_uuid);
   }  
 }
 
