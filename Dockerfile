@@ -5,11 +5,10 @@
 # push to repository
 # docker push lucwastiaux/mandarin-cantonese-api:v0.2
 
-FROM python:3.6-alpine
+FROM ubuntu:20.04
 
 COPY requirements.txt requirements.txt
 RUN pip install -r requirements.txt
-RUN pip install gunicorn
 
 COPY app.py start.sh ./
 RUN chmod +x start.sh
