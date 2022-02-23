@@ -8,7 +8,7 @@
 FROM ubuntu:20.04
 
 COPY requirements.txt requirements.txt
-RUN pip install -r requirements.txt
+RUN pip3 install -r requirements.txt
 
 COPY app.py version.py start.sh ./
 RUN chmod +x start.sh
