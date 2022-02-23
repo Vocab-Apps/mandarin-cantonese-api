@@ -56,6 +56,17 @@ function wrap_array(entry) {
   return [entry];
 }
 
+function get_user_uuid() {
+  const user_uuid_key = 'USER_UUID';
+  var userProperties = PropertiesService.getUserProperties();
+  var user_uuid = userProperties.getProperty(user_uuid_key);
+  if (user_uuid == undefined) {
+    user_uuid = Utilities.getUuid();
+    userProperties.setProperty(user_uuid_key, user_uuid);
+  }
+  return user_uuid;
+}
+
 function call_api(input_array, format, tone_numbers, spaces) {
   var url = 'https://apiv2.mandarincantonese.com/batch';  
   
@@ -63,8 +74,10 @@ function call_api(input_array, format, tone_numbers, spaces) {
     'conversion': format,
     'tone_numbers': tone_numbers,
     'spaces': spaces,
-    'entries': input_array
+    'entries': input_array,
+    'user_uuid': get_user_uuid()
   };
+  // console.log(data);
   var options = {
     'method' : 'post',
     'contentType': 'application/json',
@@ -92,23 +105,13 @@ function chinese_convert_batch(input, format, tone_numbers, spaces) {
   }
   
   var input_array = input_array.slice(0, lastNonEmpty+1);
-  
-  var apiStep = 'mandarincantonese_api_convert_batch';
-  console.time(apiStep);
   var result_entries = call_api(input_array, format, tone_numbers, spaces);
-  console.timeEnd(apiStep);  
-  
   return result_entries.map(wrap_array);
 }
 
 function chinese_convert_single(input, format, tone_numbers, spaces) {
   var input_array = [input];
-  
-  var apiStep = 'mandarincantonese_api_convert_single';
-  console.time(apiStep);
   var result_entries = call_api(input_array, format, tone_numbers, spaces);
-  console.timeEnd(apiStep);  
-  
   return result_entries[0];
 }
 
