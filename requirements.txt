@@ -1,3 +1,4 @@
 flask
 flask_restful
 pinyin_jyutping_sentence>=0.8
+sentry_sdk
