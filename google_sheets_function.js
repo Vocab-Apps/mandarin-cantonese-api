@@ -106,7 +106,8 @@ function call_api(input_array, format, tone_numbers, spaces) {
       'tone_numbers': tone_numbers,
       'spaces': spaces,
       'entries': query_array,
-      'user_uuid': get_user_uuid()
+      'user_uuid': get_user_uuid(),
+      'addon_version': 'v21'
     };
     // console.log(data);
     var options = {
