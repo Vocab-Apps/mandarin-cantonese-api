@@ -1,4 +1,7 @@
-<h1>Privacy Policy for Mandarin Cantonese API</h1>
+<img src="mandarin_cantonese_tools_logo.png"/>
+
+
+<h1>Privacy Policy for Mandarin Cantonese Tools</h1>
 
 <p>At Mandarin Cantonese API, accessible from Google Sheets Addon Mandarin Cantonese API, one of our main priorities is the privacy of our visitors. This Privacy Policy document contains types of information that is collected and recorded by Mandarin Cantonese API and how we use it.</p>
 

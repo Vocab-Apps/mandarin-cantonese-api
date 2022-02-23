@@ -1,3 +1,5 @@
+![image](mandarin_cantonese_tools_logo.png)
+
 Mandarin Cantonese Tools
 ========================
 
