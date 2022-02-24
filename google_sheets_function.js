@@ -54,6 +54,10 @@ function wrap_array(entry) {
   return [entry];
 }
 
+function to_string(entry) {
+  return entry.toString();
+}
+
 
 function get_user_uuid_key() {
   return 'USER_UUID';
@@ -113,7 +117,7 @@ function call_api(input_array, format, tone_numbers, spaces) {
       'spaces': spaces,
       'entries': query_array,
       'user_uuid': get_user_uuid(),
-      'addon_version': 'v23'
+      'addon_version': 'v24'
     };
     //console.log(data);
     var options = {
@@ -148,6 +152,7 @@ function call_api(input_array, format, tone_numbers, spaces) {
 
 function chinese_convert_batch(input, format, tone_numbers, spaces) {
   var input_array = input.map(flatten_array);
+  input_array = input_array.map(to_string);
   
   // skip rows at the bottom which don't have a value
   var lastNonEmpty = 0;
@@ -165,6 +170,7 @@ function chinese_convert_batch(input, format, tone_numbers, spaces) {
 }
 
 function chinese_convert_single(input, format, tone_numbers, spaces) {
+  input = to_string(input);
   var input_array = [input];
   var result_entries = call_api(input_array, format, tone_numbers, spaces);
   return result_entries[0];
