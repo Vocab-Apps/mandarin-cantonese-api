@@ -54,10 +54,6 @@ function wrap_array(entry) {
   return [entry];
 }
 
-function clear_cache() {
-  var values = cache.getAll(['foo', 'x', 'missing']);
-
-}
 
 function get_user_uuid_key() {
   return 'USER_UUID';
@@ -117,7 +113,7 @@ function call_api(input_array, format, tone_numbers, spaces) {
       'spaces': spaces,
       'entries': query_array,
       'user_uuid': get_user_uuid(),
-      'addon_version': 'v22'
+      'addon_version': 'v23'
     };
     //console.log(data);
     var options = {
@@ -142,7 +138,7 @@ function call_api(input_array, format, tone_numbers, spaces) {
     var query_text = query_array[i];
     var result_text = result_entries[i];
     var result_cache_key = get_cache_key(query_text, format, tone_numbers, spaces);
-    cache.put(result_cache_key, result_text, 1800);
+    cache.put(result_cache_key, result_text, 21600);
   }
 
   // combine cached array and result entries
