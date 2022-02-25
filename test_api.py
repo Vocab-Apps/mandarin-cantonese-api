@@ -112,7 +112,7 @@ class ApiTests(unittest.TestCase):
                 '有啲好貴'
             ]
         }
-        expected_result = {'result': ['ngǒ cēothêoi ló jěsik', 'jǎu dī hôu gwâi']}
+        expected_result = {'result': ['ngǒ cēothêoi ló jěsik', 'jǎu dī hóu gwâi']}
         response = self.client.post('/batch', json=data)
         actual_result = json.loads(response.data)
         #print(actual_result)
@@ -129,7 +129,7 @@ class ApiTests(unittest.TestCase):
                 '有啲好貴'
             ]
         }
-        expected_result = {'result': ['ngǒ cēothêoi ló jěsik', 'jǎu dī hôu gwâi']}
+        expected_result = {'result': ['ngǒ cēothêoi ló jěsik', 'jǎu dī hóu gwâi']}
         response = self.client.post('/batch', json=data)
         actual_result = json.loads(response.data)
         #print(actual_result)
@@ -146,7 +146,7 @@ class ApiTests(unittest.TestCase):
                 '有啲好貴'
             ]
         }
-        expected_result = {'result': ['ngo5 ceot1heoi3 lo2 je5sik6', 'jau5 di1 hou3 gwai3']}
+        expected_result = {'result': ['ngo5 ceot1heoi3 lo2 je5sik6', 'jau5 di1 hou2 gwai3']}
         response = self.client.post('/batch', json=data)
         self.assertEqual(response.status_code, 200)
         actual_result = json.loads(response.data)
@@ -164,7 +164,7 @@ class ApiTests(unittest.TestCase):
                 '有啲好貴'
             ]
         }
-        expected_result = {'result': ['ngo5 ceot1 heoi3 lo2 je5 sik6', 'jau5 di1 hou3 gwai3']}
+        expected_result = {'result': ['ngo5 ceot1 heoi3 lo2 je5 sik6', 'jau5 di1 hou2 gwai3']}
         response = self.client.post('/batch', json=data)
         self.assertEqual(response.status_code, 200)
         actual_result = json.loads(response.data)
