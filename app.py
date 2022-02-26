@@ -13,7 +13,7 @@ import sentry_sdk.integrations.flask
 sentry_env = os.environ['ENV']
 traces_sample_rate_map = {
     'development': 1.0,
-    'production': 0.05
+    'production': 0.005
 }
 
 sentry_sdk.init(
