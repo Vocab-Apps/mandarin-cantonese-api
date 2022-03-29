@@ -93,6 +93,7 @@ function get_cache_key(source_text, conversion, tone_numbers, spaces) {
 
 function call_api(input_array, format, tone_numbers, spaces) {
   var url = 'https://api-prod.mandarincantonese.com/batch';  
+
   var cache = CacheService.getDocumentCache();
 
   var cached_entries = [];
