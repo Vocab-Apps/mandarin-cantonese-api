@@ -9,6 +9,10 @@ import pinyin_jyutping_sentence
 import version
 import sentry_sdk
 import sentry_sdk.integrations.flask
+import requests
+
+DEBOUNCE_API_KEY = os.environ['DEBOUNCE_API_KEY']
+CONVERTKIT_API_KEY = os.environ['CONVERTKIT_API_KEY']
 
 sentry_env = os.environ['ENV']
 traces_sample_rate_map = {
@@ -108,11 +112,46 @@ class Batch(Resource):
         #print(result_list)
         return {'result':result_list},200
 
+class RegisterEmail(Resource):
+    def post(self):
+        data = request.json
+        email = data['email']
+
+        email_valid = True
+        email_error = None
+
+        url = "https://api.debounce.io/v1/"
+        querystring = {'api': DEBOUNCE_API_KEY, 'email': email}
+        response = requests.get(url, params=querystring)
+        if response.status_code == 200:
+            data = response.json()
+            result = data['debounce']['result']
+            reason = data['debounce']['reason']
+            if result == 'Safe to Send':
+                email_valid = True
+            else:
+                email_valid = False
+                email_error = f'email not valid: {result}, {reason}'
+        
+        if not email_valid:
+            return {'error': email_error}, 401
+
+        # tag with googlesheets_pinyin_users
+        url = f'https://api.convertkit.com/v3/tags/2954124/subscribe' 
+        response = requests.post(url, json={
+                "api_key": CONVERTKIT_API_KEY,
+                "email": email
+        }, timeout=10)
+
+        return {'result': 'ok'}, 200
+
 
 api.add_resource(Jyutping, '/jyutping/<chinese>')
 api.add_resource(Pinyin, '/pinyin/<chinese>')
 api.add_resource(Batch, '/batch')
 api.add_resource(Convert, '/convert')
+
+api.add_resource(RegisterEmail, '/register_email')
 
 if __name__ == '__main__':
     app.run(debug=False, host='0.0.0.0')
