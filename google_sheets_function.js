@@ -64,23 +64,38 @@ function show_register_email_prompt() {
   var ui = SpreadsheetApp.getUi(); // Same variations.
 
   var result = ui.prompt(
-      'Let\'s get to know each other!',
-      'Please enter your name:',
+      'Register by email',
+      'Please enter your email. Once done, you will have unlimited access to this addon.',
       ui.ButtonSet.OK_CANCEL);
 
   // Process the user's response.
   var button = result.getSelectedButton();
   var text = result.getResponseText();
+
   if (button == ui.Button.OK) {
     // User clicked "OK".
-    ui.alert('Your name is ' + text + '.');
-  } else if (button == ui.Button.CANCEL) {
-    // User clicked "Cancel".
-    ui.alert('I didn\'t get your name.');
-  } else if (button == ui.Button.CLOSE) {
-    // User clicked X in the title bar.
-    ui.alert('You closed the dialog.');
-  }
+
+    var url = 'https://api-prod.mandarincantonese.com/register_email'; 
+
+    var data = {
+      'email': text
+    };
+    //console.log(data);
+    var options = {
+      'method' : 'post',
+      'contentType': 'application/json',
+      'payload' : JSON.stringify(data),
+      'muteHttpExceptions': true
+    };
+    
+    var response = UrlFetchApp.fetch(url, options);  
+
+    if (response.getResponseCode() != 200) {
+      var result_data = JSON.parse(response);    
+      var error = result_data['error'];
+      ui.alert(error);
+    }
+  } 
 }
 
 
