@@ -18,6 +18,7 @@ function onOpen() {
   SpreadsheetApp.getUi().createAddonMenu()
       .addItem('Use in this spreadsheet', 'use')
       .addItem('Show Help', 'showSidebar')
+      .addItem('Register by email', 'show_register_email_prompt')
       .addToUi();
   showSidebar();
 }
@@ -56,6 +57,30 @@ function wrap_array(entry) {
 
 function to_string(entry) {
   return entry.toString();
+}
+
+
+function show_register_email_prompt() {
+  var ui = SpreadsheetApp.getUi(); // Same variations.
+
+  var result = ui.prompt(
+      'Let\'s get to know each other!',
+      'Please enter your name:',
+      ui.ButtonSet.OK_CANCEL);
+
+  // Process the user's response.
+  var button = result.getSelectedButton();
+  var text = result.getResponseText();
+  if (button == ui.Button.OK) {
+    // User clicked "OK".
+    ui.alert('Your name is ' + text + '.');
+  } else if (button == ui.Button.CANCEL) {
+    // User clicked "Cancel".
+    ui.alert('I didn\'t get your name.');
+  } else if (button == ui.Button.CLOSE) {
+    // User clicked X in the title bar.
+    ui.alert('You closed the dialog.');
+  }
 }
 
 

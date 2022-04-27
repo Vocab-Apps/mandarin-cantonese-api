@@ -12,12 +12,17 @@
        padding: 10px;
        border: none;
        border-radius: 8px;
-       font-size: 28px;
+       font-size: 24px;
        width: 90%;
        word-wrap: break-word;
        cursor: pointer;
      }
     </style>
+    <script>
+      function run_show_register_email_prompt() {
+        google.script.run.show_register_email_prompt();
+      }
+    </script>    
   </head>
   <body>
     <h2>Using the addon</h2>
@@ -25,15 +30,10 @@
       Type some chinese text into cell <b>A1</b> such as <b>你好</b>. In cell A2, enter the formula <pre>=PINYIN(A1)</pre>. You should see the text <b>nǐhǎo</b> appear.      
       Similarly, you can use <pre>=JYUTPING(A1)</pre> for Cantonese/Jyutping.
     </p>
-    <h2>Need more features ?</h2>
-    <p>Pinyin conversion, Translation and 📖 Dictionary lookup, 🔊 Text to speech, 💬 realtime collaboration, 
-      💻 Anki Flashcard integration.</p>
+    <h2>Register by email</h2>
+    <p>To continue using the Pinyin addon after 100 uses, you must register by email. Just enter your email, that's it !</p>
     <p>
-      <a href="https://language-tools.ck.page/75e50ede81" target="_blank">
-        <img height="250px;" src="https://graphics.anki.study/teacher_3_small.png"/>        
-        <br/>        
-        <button class="button">Click here for extra features !</button>
-      </a>
+        <button class="button" onclick="run_show_register_email_prompt()">Register by email</button>
     </p>    
 
     <h2>Help</h2>
