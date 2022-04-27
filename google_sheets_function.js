@@ -65,7 +65,7 @@ function show_register_email_prompt() {
 
   var result = ui.prompt(
       'Register by email',
-      'Please enter your email. Once done, you will have unlimited access to this addon.',
+      'Please enter your email.\nOnce done, you will have unlimited access to this addon.',
       ui.ButtonSet.OK_CANCEL);
 
   // Process the user's response.
@@ -94,6 +94,8 @@ function show_register_email_prompt() {
       var result_data = JSON.parse(response);    
       var error = result_data['error'];
       ui.alert(error);
+    } else {
+      ui.alert('Thank you for registering!\nYou can now continue to use the MandarinCantonese Pinyin Addon!');
     }
   } 
 }
