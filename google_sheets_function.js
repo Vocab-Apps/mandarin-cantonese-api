@@ -10,10 +10,12 @@
  * Runs when the add-on is installed.
  */
  function onInstall() {
+  set_require_email_registration();  
   onOpen();
 }
 
 function onOpen() {
+  // console.log('onOnpen');
   set_user_uuid();
   SpreadsheetApp.getUi().createAddonMenu()
       .addItem('Use in this spreadsheet', 'use')
@@ -26,6 +28,19 @@ function onOpen() {
 function showSidebar() {
   var html = HtmlService.createHtmlOutputFromFile('sidebar.html').setTitle('Mandarin/Cantonese Pinyin/Jyutping');
   SpreadsheetApp.getUi().showSidebar(html);
+}
+
+function debug_data() {
+  const data = PropertiesService.getUserProperties().getProperties();
+  console.log('user properties: ', data);
+  var ui = SpreadsheetApp.getUi();
+  ui.alert('debug_data', JSON.stringify(data), ui.ButtonSet.OK);
+}
+
+function clear_data() {
+  PropertiesService.getUserProperties().deleteProperty('REQUIRE_EMAIL_REGISTRATION');
+  PropertiesService.getUserProperties().deleteProperty('INSTALL_TIMESTAMP');
+  PropertiesService.getUserProperties().deleteProperty('EMAIL_REGISTRATION_DONE');
 }
 
 function use() {
@@ -95,7 +110,8 @@ function show_register_email_prompt() {
       var error = result_data['error'];
       ui.alert(error);
     } else {
-      ui.alert('Thank you for registering!\nYou can now continue to use the MandarinCantonese Pinyin Addon!');
+      set_email_registration_done(text);
+      ui.alert('Thank you for registering!\nYou can now continue to use the MandarinCantonese Pinyin Addon!\nYou may need to remove and re-add the PINYIN formulas.');
     }
   } 
 }
@@ -103,6 +119,54 @@ function show_register_email_prompt() {
 
 function get_user_uuid_key() {
   return 'USER_UUID';
+}
+
+function get_current_timestamp() {
+  const now = new Date();
+  const install_timestamp = now.getTime();
+  return install_timestamp;
+}
+
+function set_require_email_registration() {
+  var userProperties = PropertiesService.getUserProperties();
+  userProperties.setProperty('REQUIRE_EMAIL_REGISTRATION', true);
+  userProperties.setProperty('INSTALL_TIMESTAMP', get_current_timestamp());
+}
+
+function get_require_email_registration() {
+  var userProperties = PropertiesService.getUserProperties();
+  require_registration = userProperties.getProperty('REQUIRE_EMAIL_REGISTRATION');
+  if (require_registration == null && require_registration == "false") {
+    return false;
+  }
+
+  // is registration already done ?
+  if (userProperties.getProperty('EMAIL_REGISTRATION_DONE') == "true" ) {
+    //console.log('email registration already done');
+    return false;
+  }
+
+  const timestamp_diff = get_current_timestamp() - PropertiesService.getUserProperties().getProperty('INSTALL_TIMESTAMP');
+  if (require_registration && timestamp_diff > 86400*1000) {
+    // console.log('timestamp_diff: ', timestamp_diff);
+    return true
+  }
+  return false;
+}
+
+function set_email_registration_done(email) {
+  var userProperties = PropertiesService.getUserProperties();
+  userProperties.setProperty('EMAIL_REGISTRATION_DONE', true);
+  userProperties.setProperty(get_user_uuid_key(), email);
+}
+
+function get_email_registration_done() {
+  var userProperties = PropertiesService.getUserProperties();
+  email_registration_done = userProperties.getProperty('EMAIL_REGISTRATION_DONE');
+  if (email_registration_done == null) {
+    return false;
+  }
+  return true;
 }
 
 function set_user_uuid() {
@@ -136,6 +200,12 @@ function get_cache_key(source_text, conversion, tone_numbers, spaces) {
 function call_api(input_array, format, tone_numbers, spaces) {
   var url = 'https://api-prod.mandarincantonese.com/batch';  
 
+  const require_registration = get_require_email_registration();
+  // console.log('get_require_email_registration():', require_registration);
+  if (require_registration) {
+    return ['Register to continue using this addon, Menu Extensions -> Mandarin Cantonese Tools -> Register by email'];
+  }
+
   var cache = CacheService.getDocumentCache();
 
   var cached_entries = [];
@@ -160,7 +230,7 @@ function call_api(input_array, format, tone_numbers, spaces) {
       'spaces': spaces,
       'entries': query_array,
       'user_uuid': get_user_uuid(),
-      'addon_version': 'v27'
+      'addon_version': 'v28'
     };
     //console.log(data);
     var options = {
