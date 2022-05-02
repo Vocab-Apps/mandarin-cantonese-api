@@ -10,12 +10,12 @@
  * Runs when the add-on is installed.
  */
  function onInstall() {
-  set_require_email_registration();  
   onOpen();
 }
 
 function onOpen() {
   // console.log('onOnpen');
+  set_require_email_registration();    
   set_user_uuid();
   SpreadsheetApp.getUi().createAddonMenu()
       .addItem('Use in this spreadsheet', 'use')
@@ -130,7 +130,9 @@ function get_current_timestamp() {
 function set_require_email_registration() {
   var userProperties = PropertiesService.getUserProperties();
   userProperties.setProperty('REQUIRE_EMAIL_REGISTRATION', true);
-  userProperties.setProperty('INSTALL_TIMESTAMP', get_current_timestamp());
+  if (userProperties.get('INSTALL_TIMESTAMP') == null) {
+    userProperties.setProperty('INSTALL_TIMESTAMP', get_current_timestamp());
+  }
 }
 
 function get_require_email_registration() {
@@ -230,7 +232,7 @@ function call_api(input_array, format, tone_numbers, spaces) {
       'spaces': spaces,
       'entries': query_array,
       'user_uuid': get_user_uuid(),
-      'addon_version': 'v28'
+      'addon_version': 'v29'
     };
     //console.log(data);
     var options = {
