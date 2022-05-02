@@ -128,11 +128,16 @@ function get_current_timestamp() {
 }
 
 function set_require_email_registration() {
-  var userProperties = PropertiesService.getUserProperties();
-  userProperties.setProperty('REQUIRE_EMAIL_REGISTRATION', true);
-  if (userProperties.get('INSTALL_TIMESTAMP') == null) {
-    userProperties.setProperty('INSTALL_TIMESTAMP', get_current_timestamp());
-  }
+  try {
+    var userProperties = PropertiesService.getUserProperties();
+    userProperties.setProperty('REQUIRE_EMAIL_REGISTRATION', true);
+    if (userProperties.getProperty('INSTALL_TIMESTAMP') == null) {
+      userProperties.setProperty('INSTALL_TIMESTAMP', get_current_timestamp());
+    }
+  } catch (e) {
+    // Logs an ERROR message.
+    console.error('set_require_email_registration(): ' + e);
+  }  
 }
 
 function get_require_email_registration() {
@@ -232,7 +237,7 @@ function call_api(input_array, format, tone_numbers, spaces) {
       'spaces': spaces,
       'entries': query_array,
       'user_uuid': get_user_uuid(),
-      'addon_version': 'v29'
+      'addon_version': 'v30'
     };
     //console.log(data);
     var options = {
