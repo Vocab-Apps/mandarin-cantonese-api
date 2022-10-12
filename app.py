@@ -17,7 +17,7 @@ CONVERTKIT_API_KEY = os.environ['CONVERTKIT_API_KEY']
 sentry_env = os.environ['ENV']
 traces_sample_rate_map = {
     'development': 1.0,
-    'production': 0.005
+    'production': 0.0021
 }
 
 sentry_sdk.init(
