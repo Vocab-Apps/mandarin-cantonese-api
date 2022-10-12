@@ -1,6 +1,6 @@
 flask
 flask_restful
-pinyin_jyutping_sentence>=1.1
+pinyin_jyutping_sentence>=1.3
 sentry-sdk[flask]
 gunicorn
 requests
