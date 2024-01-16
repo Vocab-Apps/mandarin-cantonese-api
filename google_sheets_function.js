@@ -15,8 +15,11 @@
 
 function onOpen() {
   // console.log('onOnpen');
+  // disable temporarily, to clear errors on log
+  /*
   set_require_email_registration();    
   set_user_uuid();
+  */
   SpreadsheetApp.getUi().createAddonMenu()
       .addItem('Use in this spreadsheet', 'use')
       .addItem('Show Help', 'showSidebar')
@@ -207,11 +210,14 @@ function get_cache_key(source_text, conversion, tone_numbers, spaces) {
 function call_api(input_array, format, tone_numbers, spaces) {
   var url = 'https://api-prod.mandarincantonese.com/batch';  
 
+  // disable temporarily, to clear errors in log
+  /*
   const require_registration = get_require_email_registration();
   // console.log('get_require_email_registration():', require_registration);
   if (require_registration) {
     return ['Register to continue using this addon, Menu Extensions -> Mandarin Cantonese Tools -> Register by email'];
   }
+  */
 
   var cache = CacheService.getDocumentCache();
 
@@ -236,8 +242,9 @@ function call_api(input_array, format, tone_numbers, spaces) {
       'tone_numbers': tone_numbers,
       'spaces': spaces,
       'entries': query_array,
-      'user_uuid': get_user_uuid(),
-      'addon_version': 'v30'
+      // 'user_uuid': get_user_uuid(), // todo: fix this
+      'user_uuid': 'unknown',
+      'addon_version': 'v31'
     };
     //console.log(data);
     var options = {
