@@ -29,8 +29,12 @@ function onOpen() {
 }
 
 function showSidebar() {
-  var html = HtmlService.createHtmlOutputFromFile('sidebar.html').setTitle('Mandarin/Cantonese Pinyin/Jyutping');
-  SpreadsheetApp.getUi().showSidebar(html);
+  try {
+    var html = HtmlService.createHtmlOutputFromFile('sidebar.html').setTitle('Mandarin/Cantonese Pinyin/Jyutping');
+    SpreadsheetApp.getUi().showSidebar(html);
+  } catch (e) {
+    console.warn('showSidebar() error: ' + e);
+  }  
 }
 
 function debug_data() {
