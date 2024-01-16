@@ -248,7 +248,7 @@ function call_api(input_array, format, tone_numbers, spaces) {
       'entries': query_array,
       // 'user_uuid': get_user_uuid(), // todo: fix this
       'user_uuid': 'unknown',
-      'addon_version': 'v31'
+      'addon_version': 'v32'
     };
     //console.log(data);
     var options = {
