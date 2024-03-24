@@ -31,7 +31,7 @@ function showSidebar() {
     var html = HtmlService.createHtmlOutputFromFile('sidebar.html').setTitle('Mandarin/Cantonese Pinyin/Jyutping');
     SpreadsheetApp.getUi().showSidebar(html);
   } catch (e) {
-    console.warn('showSidebar() error: ' + e);
+    // console.warn('showSidebar() error: ' + e);
   }  
 }
 
@@ -140,7 +140,7 @@ function set_require_email_registration() {
       userProperties.setProperty('INSTALL_TIMESTAMP', get_current_timestamp());
     }
   } catch (e) {
-    console.warn('set_require_email_registration(): ' + e);
+    // console.warn('set_require_email_registration(): ' + e);
   }  
 }
 
@@ -194,7 +194,7 @@ function set_user_uuid() {
       userProperties.setProperty(get_user_uuid_key(), user_uuid);
     }  
   } catch (e) {
-    console.warn('set_user_uuid(): ' + e);
+    // console.warn('set_user_uuid(): ' + e);
   }    
 }
 
