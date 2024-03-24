@@ -16,10 +16,8 @@
 function onOpen() {
   // console.log('onOnpen');
   // disable temporarily, to clear errors on log
-  /*
   set_require_email_registration();    
   set_user_uuid();
-  */
   SpreadsheetApp.getUi().createAddonMenu()
       .addItem('Use in this spreadsheet', 'use')
       .addItem('Show Help', 'showSidebar')
@@ -142,8 +140,7 @@ function set_require_email_registration() {
       userProperties.setProperty('INSTALL_TIMESTAMP', get_current_timestamp());
     }
   } catch (e) {
-    // Logs an ERROR message.
-    console.error('set_require_email_registration(): ' + e);
+    console.warn('set_require_email_registration(): ' + e);
   }  
 }
 
@@ -184,12 +181,16 @@ function get_email_registration_done() {
 }
 
 function set_user_uuid() {
-  var userProperties = PropertiesService.getUserProperties();
-  var user_uuid = userProperties.getProperty(get_user_uuid_key());
-  if (user_uuid == undefined) {
-    user_uuid = Utilities.getUuid();
-    userProperties.setProperty(get_user_uuid_key(), user_uuid);
-  }  
+  try {  
+    var userProperties = PropertiesService.getUserProperties();
+    var user_uuid = userProperties.getProperty(get_user_uuid_key());
+    if (user_uuid == undefined) {
+      user_uuid = Utilities.getUuid();
+      userProperties.setProperty(get_user_uuid_key(), user_uuid);
+    }  
+  } catch (e) {
+    console.warn('set_user_uuid(): ' + e);
+  }    
 }
 
 function get_user_uuid() {
