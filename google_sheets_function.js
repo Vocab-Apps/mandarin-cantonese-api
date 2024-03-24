@@ -194,18 +194,23 @@ function set_user_uuid() {
 }
 
 function get_user_uuid() {
-  var userProperties = PropertiesService.getUserProperties();
-  var user_uuid = userProperties.getProperty(get_user_uuid_key());
-  if (user_uuid == undefined) {
-    // for some users, we're unable to set user properties, use cache instead
-    var user_cache = CacheService.getUserCache();
-    user_uuid = user_cache.get(get_user_uuid_key());
+  try {    
+    var userProperties = PropertiesService.getUserProperties();
+    var user_uuid = userProperties.getProperty(get_user_uuid_key());
     if (user_uuid == undefined) {
-      user_uuid = Utilities.getUuid();
-      user_cache.put(get_user_uuid_key(), user_uuid, 21600);
+      // for some users, we're unable to set user properties, use cache instead
+      var user_cache = CacheService.getUserCache();
+      user_uuid = user_cache.get(get_user_uuid_key());
+      if (user_uuid == undefined) {
+        user_uuid = Utilities.getUuid();
+        user_cache.put(get_user_uuid_key(), user_uuid, 21600);
+      }
     }
-  }
-  return user_uuid;
+    return user_uuid;
+  } catch (e) {
+    console.warn('get_user_uuid(): ' + e);
+  }    
+  return 'unknown';
 }
 
 function get_cache_key(source_text, conversion, tone_numbers, spaces) {
@@ -247,8 +252,7 @@ function call_api(input_array, format, tone_numbers, spaces) {
       'tone_numbers': tone_numbers,
       'spaces': spaces,
       'entries': query_array,
-      // 'user_uuid': get_user_uuid(), // todo: fix this
-      'user_uuid': 'unknown',
+      'user_uuid': get_user_uuid(),
       'addon_version': 'v32'
     };
     //console.log(data);
