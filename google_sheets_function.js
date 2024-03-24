@@ -245,6 +245,8 @@ function call_api(input_array, format, tone_numbers, spaces) {
     }
   }
 
+  // retain entries which start after cached_entries.length.
+  // everything before was available in cache, we just need to query the rest
   var query_array = input_array.slice(cached_entries.length);
   // console.log('cached_entries: ', cached_entries);
   // console.log('query_array: ', query_array);
@@ -320,7 +322,7 @@ function chinese_convert_single(input, format, tone_numbers, spaces) {
       console.warn('chinese_convert_single: ' + error_message);
       return error_message;
     } else {
-      console.warn('chinese_convert_single: ' + e);
+      console.error('chinese_convert_single: ' + e);
     }
     return "Error: " + e.toString();
   }    
