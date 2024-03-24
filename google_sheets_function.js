@@ -145,23 +145,28 @@ function set_require_email_registration() {
 }
 
 function get_require_email_registration() {
-  var userProperties = PropertiesService.getUserProperties();
-  require_registration = userProperties.getProperty('REQUIRE_EMAIL_REGISTRATION');
-  if (require_registration == null && require_registration == "false") {
-    return false;
-  }
+  try {  
+    var userProperties = PropertiesService.getUserProperties();
+    require_registration = userProperties.getProperty('REQUIRE_EMAIL_REGISTRATION');
+    if (require_registration == null && require_registration == "false") {
+      return false;
+    }
 
-  // is registration already done ?
-  if (userProperties.getProperty('EMAIL_REGISTRATION_DONE') == "true" ) {
-    //console.log('email registration already done');
-    return false;
-  }
+    // is registration already done ?
+    if (userProperties.getProperty('EMAIL_REGISTRATION_DONE') == "true" ) {
+      //console.log('email registration already done');
+      return false;
+    }
 
-  const timestamp_diff = get_current_timestamp() - PropertiesService.getUserProperties().getProperty('INSTALL_TIMESTAMP');
-  if (require_registration && timestamp_diff > 86400*1000) {
-    // console.log('timestamp_diff: ', timestamp_diff);
-    return true
-  }
+    const timestamp_diff = get_current_timestamp() - PropertiesService.getUserProperties().getProperty('INSTALL_TIMESTAMP');
+    if (require_registration && timestamp_diff > 86400*1000) {
+      // console.log('timestamp_diff: ', timestamp_diff);
+      return true
+    }
+  } catch (e) {
+    console.warn('get_require_email_registration(): ' + e);
+  }    
+  // default to false, for example if user properties are disabled
   return false;
 }
 
@@ -221,13 +226,11 @@ function call_api(input_array, format, tone_numbers, spaces) {
   var url = 'https://api-prod.mandarincantonese.com/batch';  
 
   // disable temporarily, to clear errors in log
-  /*
   const require_registration = get_require_email_registration();
   // console.log('get_require_email_registration():', require_registration);
   if (require_registration) {
     return ['Register to continue using this addon, Menu Extensions -> Mandarin Cantonese Tools -> Register by email'];
   }
-  */
 
   var cache = CacheService.getDocumentCache();
 
