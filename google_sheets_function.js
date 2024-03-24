@@ -311,8 +311,19 @@ function chinese_convert_batch(input, format, tone_numbers, spaces) {
 function chinese_convert_single(input, format, tone_numbers, spaces) {
   input = to_string(input);
   var input_array = [input];
-  var result_entries = call_api(input_array, format, tone_numbers, spaces);
-  return result_entries[0];
+  try {
+    var result_entries = call_api(input_array, format, tone_numbers, spaces);
+    return result_entries[0];
+  } catch (e) {
+    if (e.toString().indexOf("Service invoked too many times") !== -1) {
+      var error_message = "Error: exceeded Google rate limit, please use Batch mode instead, see Menu Extensions -> Mandarin Cantonese Tools -> Show Help";
+      console.warn('chinese_convert_single: ' + error_message);
+      return error_message;
+    } else {
+      console.warn('chinese_convert_single: ' + e);
+    }
+    return "Error: " + e.toString();
+  }    
 }
 
 
