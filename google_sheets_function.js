@@ -332,6 +332,12 @@ function chinese_convert_single(input, format, tone_numbers, spaces) {
 function convert(input, format, tone_numbers, spaces) {
   tone_numbers = tone_numbers || false;
   spaces = spaces || false;
+  if (input === null) 
+  {
+    var error_message = 'Error: no input provided';
+    console.warn('convert: ' + error_message);
+    return error_message;
+  }
   if( input.map ) {
     return chinese_convert_batch(input, format, tone_numbers, spaces);
   } else {
