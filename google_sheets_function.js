@@ -343,7 +343,7 @@ function chinese_convert_single(input, format, tone_numbers, spaces) {
 function convert(input, format, tone_numbers, spaces) {
   tone_numbers = tone_numbers || false;
   spaces = spaces || false;
-  if (input === null) 
+  if (input === undefined || input === null) 
   {
     var error_message = 'Error: no input provided';
     console.warn('convert: ' + error_message);
