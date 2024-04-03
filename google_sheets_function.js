@@ -225,9 +225,7 @@ function get_cache_key(source_text, conversion, tone_numbers, spaces) {
 function call_api(input_array, format, tone_numbers, spaces) {
   var url = 'https://api-prod.mandarincantonese.com/batch';  
 
-  // disable temporarily, to clear errors in log
   const require_registration = get_require_email_registration();
-  // console.log('get_require_email_registration():', require_registration);
   if (require_registration) {
     return ['Register to continue using this addon, Menu Extensions -> Mandarin Cantonese Tools -> Register by email'];
   }
