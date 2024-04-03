@@ -274,7 +274,7 @@ function call_api(input_array, format, tone_numbers, spaces) {
       'spaces': spaces,
       'entries': query_array,
       'user_uuid': get_user_uuid(),
-      'addon_version': 'v38'
+      'addon_version': 'v39'
     };
     //console.log(data);
     var options = {
