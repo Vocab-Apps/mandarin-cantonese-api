@@ -233,6 +233,13 @@ function call_api(input_array, format, tone_numbers, spaces) {
   var cache = CacheService.getDocumentCache();
 
   // do some sanity checks on all entries
+  var max_rows = 1000;
+  if (input_array.length > max_rows) {
+    var error_message = 'Error: too many rows, maximum ' + max_rows + ' rows';
+    console.warn('call_api: ' + error_message);
+    return [error_message];
+  }
+  
   var max_characters = 100;
   for (var i = 0; i < input_array.length; i++) {
     var entry = input_array[i];
