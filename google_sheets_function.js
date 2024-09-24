@@ -36,12 +36,31 @@ function showSidebar() {
   }  
 }
 
+function generateRandomNumber(min, max) {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
 function debug_data() {
   try {
-    const data = PropertiesService.getUserProperties().getProperties();
-    console.log('user properties: ', data);
+    var userProperties = PropertiesService.getUserProperties();
+
+    // get user properties
+    const data = userProperties.getProperties();
+    const user_properties_str = JSON.stringify(data);
+
+    // now, try to write a property
+    const randomNumber = generateRandomNumber(1, 100);
+    const testProperty = 'testProperty_' + randomNumber;
+    userProperties.setProperty('TEST_PROPERTY', testProperty);
+    // ensure that the property was written
+    const testPropertyRead = userProperties.getProperty('TEST_PROPERTY');
+    const propertyWriteSuccessful = testPropertyRead == testProperty;
+
+    const debugData = 'User Properties: ' + user_properties_str +
+    ' Write Property Test: ' + propertyWriteSuccessful;
+
     var ui = SpreadsheetApp.getUi();
-    ui.alert('Debug Data', JSON.stringify(data), ui.ButtonSet.OK);
+    ui.alert('Debug Data', debugData, ui.ButtonSet.OK);
   } catch (e) {
     console.error('debug_data(): ' + e);
     ui.alert('Debug Data Error', 'error getting debug data: ' + e, ui.ButtonSet.OK);
@@ -284,7 +303,7 @@ function call_api(input_array, format, tone_numbers, spaces) {
       'spaces': spaces,
       'entries': query_array,
       'user_uuid': get_user_uuid(),
-      'addon_version': 'v40'
+      'addon_version': 'v41'
     };
     //console.log(data);
     var options = {
