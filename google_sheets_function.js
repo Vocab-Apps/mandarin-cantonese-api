@@ -22,6 +22,7 @@ function onOpen() {
       .addItem('Use in this spreadsheet', 'use')
       .addItem('Show Help', 'showSidebar')
       .addItem('Register by email', 'show_register_email_prompt')
+      .addItem('Show debug data', 'debug_data')
       .addToUi();
   showSidebar();
 }
@@ -36,10 +37,15 @@ function showSidebar() {
 }
 
 function debug_data() {
-  const data = PropertiesService.getUserProperties().getProperties();
-  console.log('user properties: ', data);
-  var ui = SpreadsheetApp.getUi();
-  ui.alert('debug_data', JSON.stringify(data), ui.ButtonSet.OK);
+  try {
+    const data = PropertiesService.getUserProperties().getProperties();
+    console.log('user properties: ', data);
+    var ui = SpreadsheetApp.getUi();
+    ui.alert('Debug Data', JSON.stringify(data), ui.ButtonSet.OK);
+  } catch (e) {
+    console.error('debug_data(): ' + e);
+    ui.alert('Debug Data Error', 'error getting debug data: ' + e, ui.ButtonSet.OK);
+  }
 }
 
 function clear_data() {
