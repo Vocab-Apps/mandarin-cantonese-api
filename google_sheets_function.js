@@ -177,9 +177,13 @@ function get_require_email_registration() {
 }
 
 function set_email_registration_done(email) {
-  var userProperties = PropertiesService.getUserProperties();
-  userProperties.setProperty('EMAIL_REGISTRATION_DONE', true);
-  userProperties.setProperty(get_user_uuid_key(), email);
+  try {
+    var userProperties = PropertiesService.getUserProperties();
+    userProperties.setProperty('EMAIL_REGISTRATION_DONE', true);
+    userProperties.setProperty(get_user_uuid_key(), email);
+  } catch (e) {
+    console.error('set_email_registration_done(): ' + e);
+  }   
 }
 
 function get_email_registration_done() {
