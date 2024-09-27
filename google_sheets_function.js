@@ -57,7 +57,9 @@ function debug_data() {
     const propertyWriteSuccessful = testPropertyRead == testProperty;
 
     const debugData = 'User Properties: ' + user_properties_str +
-    ' Write Property Test: ' + propertyWriteSuccessful;
+    ' [Write Property Test: ' + propertyWriteSuccessful + '] ' +
+    ' [Require Email Registration: ' + get_require_email_registration() + '] ' +
+    ' [Email Registration Done: ' + email_registration_done() + '] ';
 
     var ui = SpreadsheetApp.getUi();
     ui.alert('Debug Data', debugData, ui.ButtonSet.OK);
@@ -169,17 +171,36 @@ function set_require_email_registration() {
   }  
 }
 
+function require_email_registration() {
+  var require_registration = PropertiesService.getUserProperties().getProperty('REQUIRE_EMAIL_REGISTRATION');
+  if (require_registration === null || require_registration === "false") {
+    return false;
+  }
+  return true;
+}
+
+function email_registration_done() {
+  // Check if registration is already done
+  var registrationDone = PropertiesService.getUserProperties().getProperty('EMAIL_REGISTRATION_DONE');
+  if (registrationDone && registrationDone === "true") {
+    //console.log('email registration already done');
+    return true;
+  }
+  // email registration not done
+  return false;
+}
+
 function get_require_email_registration() {
   try {  
-    var userProperties = PropertiesService.getUserProperties();
-    require_registration = userProperties.getProperty('REQUIRE_EMAIL_REGISTRATION');
-    if (require_registration == null && require_registration == "false") {
+    if (! require_email_registration())
+    {
+      // email registration not required
       return false;
     }
 
-    // is registration already done ?
-    if (userProperties.getProperty('EMAIL_REGISTRATION_DONE') == "true" ) {
-      //console.log('email registration already done');
+    if (email_registration_done())
+    {
+      // email registration already done
       return false;
     }
 
@@ -303,7 +324,7 @@ function call_api(input_array, format, tone_numbers, spaces) {
       'spaces': spaces,
       'entries': query_array,
       'user_uuid': get_user_uuid(),
-      'addon_version': 'v41'
+      'addon_version': 'v42'
     };
     //console.log(data);
     var options = {
