@@ -6,6 +6,11 @@
  * @OnlyCurrentDoc
  */
 
+function getAddonVersion() {
+  const PINYIN_ADDON_VERSION = 'v43';
+  return PINYIN_ADDON_VERSION;
+}
+
 /**
  * Runs when the add-on is installed.
  */
@@ -59,7 +64,8 @@ function debug_data() {
     const debugData = 'User Properties: ' + user_properties_str +
     ' [Write Property Test: ' + propertyWriteSuccessful + '] ' +
     ' [Require Email Registration: ' + get_require_email_registration() + '] ' +
-    ' [Email Registration Done: ' + email_registration_done() + '] ';
+    ' [Email Registration Done: ' + email_registration_done() + '] ' +
+    ' [Addon Version: ' + getAddonVersion() + '] ';
 
     var ui = SpreadsheetApp.getUi();
     ui.alert('Debug Data', debugData, ui.ButtonSet.OK);
@@ -205,7 +211,7 @@ function get_require_email_registration() {
     }
 
     const timestamp_diff = get_current_timestamp() - PropertiesService.getUserProperties().getProperty('INSTALL_TIMESTAMP');
-    if (require_registration && timestamp_diff > 86400*1000) {
+    if (require_email_registration() && timestamp_diff > 86400*1000) {
       // console.log('timestamp_diff: ', timestamp_diff);
       return true
     }
@@ -324,7 +330,7 @@ function call_api(input_array, format, tone_numbers, spaces) {
       'spaces': spaces,
       'entries': query_array,
       'user_uuid': get_user_uuid(),
-      'addon_version': 'v42'
+      'addon_version': getAddonVersion()
     };
     //console.log(data);
     var options = {
