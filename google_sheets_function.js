@@ -7,7 +7,7 @@
  */
 
 function getAddonVersion() {
-  const PINYIN_ADDON_VERSION = 'v43';
+  const PINYIN_ADDON_VERSION = 'v44';
   return PINYIN_ADDON_VERSION;
 }
 
@@ -45,7 +45,8 @@ function generateRandomNumber(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-function debug_data() {
+function get_debug_data_str()
+{
   try {
     var userProperties = PropertiesService.getUserProperties();
 
@@ -67,6 +68,16 @@ function debug_data() {
     ' [Email Registration Done: ' + email_registration_done() + '] ' +
     ' [Addon Version: ' + getAddonVersion() + '] ';
 
+    return debugData;
+  } catch (e) {
+    const debugDataError = 'error getting debug data: ' + e;
+    return debugDataError;
+  }  
+}
+
+function debug_data() {
+  try {
+    const debugData = get_debug_data_str();
     var ui = SpreadsheetApp.getUi();
     ui.alert('Debug Data', debugData, ui.ButtonSet.OK);
   } catch (e) {
@@ -283,7 +294,7 @@ function call_api(input_array, format, tone_numbers, spaces) {
 
   const require_registration = get_require_email_registration();
   if (require_registration) {
-    return ['Register to continue using this addon, Menu Extensions -> Mandarin Cantonese Tools -> Register by email'];
+    return ['Register to continue using this addon, Menu Extensions -> Mandarin Cantonese Tools -> Register by email [debug]: ' + get_debug_data_str()];
   }
 
   var cache = CacheService.getDocumentCache();
