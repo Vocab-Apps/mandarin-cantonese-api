@@ -17,7 +17,7 @@ CONVERTKIT_API_KEY = os.environ['CONVERTKIT_API_KEY']
 sentry_env = os.environ['ENV']
 traces_sample_rate_map = {
     'development': 1.0,
-    'production': 0.0021
+    'production': 0.00074 # updated 2025/04/21, target 40k events/month
 }
 
 sentry_sdk.init(
@@ -136,8 +136,8 @@ class RegisterEmail(Resource):
         if not email_valid:
             return {'error': email_error}, 401
 
-        # tag with googlesheets_pinyin_users
-        url = f'https://api.convertkit.com/v3/tags/2954124/subscribe' 
+        # subscribe to form "Google Sheets Pinyin Addon"
+        url = f'https://api.convertkit.com/v3/forms/7944215/subscribe' 
         response = requests.post(url, json={
                 "api_key": CONVERTKIT_API_KEY,
                 "email": email
@@ -145,6 +145,9 @@ class RegisterEmail(Resource):
 
         return {'result': 'ok'}, 200
 
+class Health(Resource):
+    def get(self):
+        return {'status': 'OK'}, 200
 
 api.add_resource(Jyutping, '/jyutping/<chinese>')
 api.add_resource(Pinyin, '/pinyin/<chinese>')
@@ -152,6 +155,8 @@ api.add_resource(Batch, '/batch')
 api.add_resource(Convert, '/convert')
 
 api.add_resource(RegisterEmail, '/register_email')
+
+api.add_resource(Health, '/_health')
 
 if __name__ == '__main__':
     app.run(debug=False, host='0.0.0.0')
