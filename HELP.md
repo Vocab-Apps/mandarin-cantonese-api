@@ -16,7 +16,7 @@ You can view our [Privacy Policy here](/PRIVACY)
 
 Reporting errors
 ----------------
-You can open an issue on [github](https://github.com/lucwastiaux/mandarin-cantonese-api/issues), or email [mandarincantonese@mailc.net](mailto:mandarincantonese@mailc.net) to report any problems. 
+You can open an issue on [github](https://github.com/lucwastiaux/mandarin-cantonese-api/issues), or email [pinyin@mail.vocab.ai](mailto:pinyin@mail.vocab.ai) to report any problems. 
 
 Want to support my work on this add-on, and get priority feature requests, bug fixes ? Become a supporter on patreon: https://www.patreon.com/lucw
 
