@@ -7,7 +7,7 @@
  */
 
 function getAddonVersion() {
-  const PINYIN_ADDON_VERSION = 'v44';
+  const PINYIN_ADDON_VERSION = 'v45';
   return PINYIN_ADDON_VERSION;
 }
 
@@ -189,6 +189,8 @@ function set_require_email_registration() {
 }
 
 function require_email_registration() {
+  // disable email registration temporarily
+  return false;
   var require_registration = PropertiesService.getUserProperties().getProperty('REQUIRE_EMAIL_REGISTRATION');
   if (require_registration === null || require_registration === "false") {
     return false;
